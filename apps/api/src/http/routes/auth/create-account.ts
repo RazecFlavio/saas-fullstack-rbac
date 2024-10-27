@@ -7,6 +7,8 @@ import z from "zod";
 export async function createAccount(app: FastifyInstance) {
     app.withTypeProvider<ZodTypeProvider>().post('/users', {
         schema: {
+            tags: ['Auth'],
+            summary: 'Create a new account',
             body: z.object({
                 name: z.string(),
                 email: z.string().email(),
@@ -24,13 +26,26 @@ export async function createAccount(app: FastifyInstance) {
 
         if (usersWithSameEmail) return reply.status(400).send({ message: 'user with same email already exists!' })
 
+        const [, domain] = email.split("@")
+
+        const autoJoinOrganization = await prisma.organization.findFirst({
+            where: {
+                domain, shouldAttachUsersByDomains: true
+            }
+        })
+
         const passwordHash = await hash(password, 6);
 
         await prisma.user.create({
             data: {
                 name,
                 email,
-                passwordHash
+                passwordHash,
+                member_on: autoJoinOrganization ? {
+                    create: {
+                        organizationId: autoJoinOrganization.id,
+                    }
+                } : undefined
             }
         })
 
