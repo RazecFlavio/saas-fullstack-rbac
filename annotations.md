@@ -19,3 +19,5 @@
 - pnpm i @fastify/swagger ## gerar documentação ---documentação da configuracao https://github.com/turkerdev/fastify-type-provider-zod
 
 - pnpm i @fastify/swagger-ui ### visualização da documentação criado pelo swagger.
+
+- pnpm i @fastify/jwt ##para a criação dos tokens
