@@ -21,3 +21,7 @@
 - pnpm i @fastify/swagger-ui ### visualização da documentação criado pelo swagger.
 
 - pnpm i @fastify/jwt ##para a criação dos tokens
+
+#### criando o midlleware
+
+-pnpm i fastify-plugin  --para envolver os middleware

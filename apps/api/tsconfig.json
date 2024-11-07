@@ -1,7 +1,7 @@
 {
     "extends": "@saas/ts-config/node.json",
     "include": [
-        "src/**/*"
+        "src/**/*","@types/*"  //este @types existe por conta do arquivo dentro da pasta @types
     ],
     "compilerOptions": {
         "baseUrl": ".",
