@@ -8,8 +8,11 @@ import { auth } from "@/http/middlewares/auth";
 export async function getProfile(app: FastifyInstance) {
     app.withTypeProvider<ZodTypeProvider>().register(auth).get('/profile', {
         schema: {
-            tags: ['auth'],
+            tags: ['Auth'],
             summary: 'Get authenticate user profile',
+            security: [
+                { bearerAuth: [] }
+            ],
             response: {
                 200: z.object({
                     user: z.object({

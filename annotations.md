@@ -25,3 +25,9 @@
 #### criando o midlleware
 
 -pnpm i fastify-plugin  --para envolver os middleware
+
+-https://github.com/login/oauth/authorize?client_id=Ov23liSnM4eAEx91a5if&redirect_uri=http://localhost:3333/api/auth/callback&scope=user:email
+
+-pnpm i @t3-oss/env-nextjs   --- pacote para permitir separar as variaveis de ambiente
+
+-pnpm i dotenv-cli -D  //no packager.json da api, no scripts -- serve para identificar que a partir do -- será outro comando á ser executado!

@@ -11,7 +11,7 @@ export async function requestPasswordRecovery(app: FastifyInstance) {
         '/password/recover', 
         {
         schema: {
-            tags: ['auth'],
+            tags: ['Auth'],
             summary: 'Request recovery',
             body: z.object({
                 email: z.string().email()
