@@ -31,3 +31,4 @@
 -pnpm i @t3-oss/env-nextjs   --- pacote para permitir separar as variaveis de ambiente
 
 -pnpm i dotenv-cli -D  //no packager.json da api, no scripts -- serve para identificar que a partir do -- será outro comando á ser executado!
+
