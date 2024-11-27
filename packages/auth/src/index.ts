@@ -1,4 +1,4 @@
-import { createMongoAbility, CreateAbility, MongoAbility, AbilityBuilder, detectSubjectType, subject } from '@casl/ability';
+import { createMongoAbility, CreateAbility, MongoAbility, AbilityBuilder } from '@casl/ability';
 import { User } from './models/user';
 import { permissions } from './permissions';
 import { userSubject } from './subjects/user';
