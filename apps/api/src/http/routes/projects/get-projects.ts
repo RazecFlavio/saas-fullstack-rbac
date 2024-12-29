@@ -5,52 +5,52 @@ import { ZodTypeProvider } from "fastify-type-provider-zod";
 import z from "zod";
 import { getUserPermissions } from "@/utils/get-user-permissions";
 import { UnauthorizedError } from "../_erros/unauthorized-error";
-import { BadRequestError } from "../_erros/bad-request-error";
 
-export async function getProject(app: FastifyInstance) {
+export async function getProjects(app: FastifyInstance) {
     app.withTypeProvider<ZodTypeProvider>().register(auth)
-        .get('/organization/:orgSlug/projects/:projectSlug', {
+        .get('/organization/:slug/projects', {
             schema: {
                 tags: ['Projects'],
-                summary: 'Get Project details',
+                summary: 'Get all organization projects',
                 security: [{ bearerAuth: [] }],
                 params: z.object({
-                    orgSlug: z.string(),
-                    projectSlug: z.string()
+                    slug: z.string()
                 })
                 ,
                 response: {
                     200: z.object({
-                        project: z.object({
-                            name: z.string(),
-                            id: z.string().uuid(),
-                            slug: z.string(),
-                            avatarUrl: z.string().url().nullable(),
-                            ownerId: z.string().uuid(),
-                            organizationId: z.string().uuid(),
-                            description: z.string(),
-                            owner: z.object({
-                                name: z.string().nullable(),
+                        projects: z.array(
+                            z.object({
+                                name: z.string(),
                                 id: z.string().uuid(),
-                                avatarUrl: z.string().url().nullable()
+                                slug: z.string(),
+                                avatarUrl: z.string().url().nullable(),
+                                ownerId: z.string().uuid(),
+                                organizationId: z.string().uuid(),
+                                description: z.string(),
+                                owner: z.object({
+                                    name: z.string().nullable(),
+                                    id: z.string().uuid(),
+                                    avatarUrl: z.string().url().nullable()
+                                })
                             })
-                        })
+                        )
                     })
                 }
             }
         }, async (req, reply) => {
-            const { orgSlug, projectSlug } = req.params;
+            const { slug } = req.params;
             const userId = await req.getCurrentUserId()
 
-            const { membership, organization } = await req.getUserMembership(orgSlug)
+            const { membership, organization } = await req.getUserMembership(slug)
 
             const { cannot } = getUserPermissions(userId, membership.role)
 
             if (cannot('get', 'Project'))
-                throw new UnauthorizedError(`You're not allowed to see this project.`)
+                throw new UnauthorizedError(`You're not allowed to see organization project.`)
 
 
-            const project = await prisma.project.findUnique({
+            const projects = await prisma.project.findMany({
                 select: {
                     id: true,
                     name: true,
@@ -59,6 +59,7 @@ export async function getProject(app: FastifyInstance) {
                     ownerId: true,
                     avatarUrl: true,
                     organizationId: true,
+                    createdAt: true,
                     owner: {
                         select: {
                             id: true,
@@ -68,14 +69,14 @@ export async function getProject(app: FastifyInstance) {
                     }
                 },
                 where: {
-                    slug: projectSlug,
                     organizationId: organization.id
+                },
+                orderBy: {
+                    createdAt: 'desc'
                 }
             })
 
-            if (!project) throw new BadRequestError('Project not found!')
-
-            return reply.status(200).send({ project })
+            return reply.status(200).send({ projects })
 
         })
 }
