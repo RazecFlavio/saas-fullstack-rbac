@@ -9,7 +9,7 @@ import { roleSchema } from "@saas/auth";
 
 export async function removeMember(app: FastifyInstance) {
     app.withTypeProvider<ZodTypeProvider>().register(auth)
-        .delete('/organization/:slug/members/:memberId'
+        .delete('/organizations/:slug/members/:memberId'
             , {
                 schema: {
                     tags: ['Members'],

@@ -5,22 +5,19 @@ import { ZodTypeProvider } from "fastify-type-provider-zod";
 import z from "zod";
 import { getUserPermissions } from "@/utils/get-user-permissions";
 import { UnauthorizedError } from "../_erros/unauthorized-error";
-import { projectSchema } from "@saas/auth";
+import { roleSchema } from "@saas/auth";
+import { BadRequestError } from "../_erros/bad-request-error";
 
-export async function updateProject(app: FastifyInstance) {
+export async function revokeInvite(app: FastifyInstance) {
     app.withTypeProvider<ZodTypeProvider>().register(auth)
-        .put('/organizations/:slug/projects/:projectId', {
+        .post('/organizations/:slug/invites/:inviteId', {
             schema: {
-                tags: ['Projects'],
-                summary: 'Update a Project',
+                tags: ['Invites'],
+                summary: 'Revoke an Invite',
                 security: [{ bearerAuth: [] }],
-                body: z.object({
-                    name: z.string(),
-                    description: z.string()
-                }),
                 params: z.object({
                     slug: z.string(),
-                    projectId: z.string().uuid()
+                    inviteId: z.string().uuid()
                 })
                 ,
                 response: {
@@ -28,34 +25,32 @@ export async function updateProject(app: FastifyInstance) {
                 }
             }
         }, async (req, reply) => {
-            const { slug, projectId } = req.params;
+            const { slug, inviteId } = req.params;
             const userId = await req.getCurrentUserId()
             const { membership, organization } = await req.getUserMembership(slug)
 
-            const project = await prisma.project.findUnique({
+            const { cannot } = getUserPermissions(userId, membership.role)
+
+            if (cannot('delete', 'Invite')) throw new UnauthorizedError(`You're not allowed to delete an invite.`)
+
+
+            const invite = await prisma.invite.findUnique({
                 where: {
-                    id: projectId,
+                    id: inviteId,
                     organizationId: organization.id
                 }
             })
 
-            const authProject = projectSchema.parse(project)
+            if (!invite) {
+                throw new BadRequestError('Invite not found.')
+            }
 
-            const { cannot } = getUserPermissions(userId, membership.role)
-
-            if (cannot('update', authProject))
-                throw new UnauthorizedError(`You're not allowed to update this project.`)
-
-            const { name, description } = req.body;
-
-            await prisma.project.update({
+            await prisma.invite.delete({
                 where: {
-                    id: projectId
-                },
-                data: {
-                    name, description
+                    id: invite.id
                 }
             })
+
             return reply.status(204).send()
         })
 }

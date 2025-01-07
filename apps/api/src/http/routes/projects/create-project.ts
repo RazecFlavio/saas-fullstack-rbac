@@ -9,7 +9,7 @@ import { UnauthorizedError } from "../_erros/unauthorized-error";
 
 export async function createProject(app: FastifyInstance) {
     app.withTypeProvider<ZodTypeProvider>().register(auth)
-        .post('/organization/:slug/projects', {
+        .post('/organizations/:slug/projects', {
             schema: {
                 tags: ['Projects'],
                 summary: 'Create a new Project',

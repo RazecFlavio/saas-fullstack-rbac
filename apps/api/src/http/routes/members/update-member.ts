@@ -9,7 +9,7 @@ import { roleSchema } from "@saas/auth";
 
 export async function updateMember(app: FastifyInstance) {
     app.withTypeProvider<ZodTypeProvider>().register(auth)
-        .put('/organization/:slug/members/:memberId'
+        .put('/organizations/:slug/members/:memberId'
             , {
                 schema: {
                     tags: ['Members'],

@@ -9,7 +9,7 @@ import { BadRequestError } from "../_erros/bad-request-error";
 
 export async function getProject(app: FastifyInstance) {
     app.withTypeProvider<ZodTypeProvider>().register(auth)
-        .get('/organization/:orgSlug/projects/:projectSlug', {
+        .get('/organizations/:orgSlug/projects/:projectSlug', {
             schema: {
                 tags: ['Projects'],
                 summary: 'Get Project details',

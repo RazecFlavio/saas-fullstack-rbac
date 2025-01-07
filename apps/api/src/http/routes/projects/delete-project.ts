@@ -9,7 +9,7 @@ import { UnauthorizedError } from "../_erros/unauthorized-error";
 import { projectSchema } from "@saas/auth";
 
 export async function deleteProject(app: FastifyInstance) {
-    app.withTypeProvider<ZodTypeProvider>().register(auth).delete('/organization/:slug/projects/:projectId', {
+    app.withTypeProvider<ZodTypeProvider>().register(auth).delete('/organizations/:slug/projects/:projectId', {
         schema: {
             tags: ['Projects'],
             summary: 'Delete a Project',

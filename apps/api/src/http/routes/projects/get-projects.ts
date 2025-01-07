@@ -8,7 +8,7 @@ import { UnauthorizedError } from "../_erros/unauthorized-error";
 
 export async function getProjects(app: FastifyInstance) {
     app.withTypeProvider<ZodTypeProvider>().register(auth)
-        .get('/organization/:slug/projects', {
+        .get('/organizations/:slug/projects', {
             schema: {
                 tags: ['Projects'],
                 summary: 'Get all organization projects',
