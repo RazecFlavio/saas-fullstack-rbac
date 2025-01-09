@@ -10,7 +10,7 @@ import { BadRequestError } from "../_erros/bad-request-error";
 
 export async function createInvite(app: FastifyInstance) {
     app.withTypeProvider<ZodTypeProvider>().register(auth)
-        .post('/organizations/:slug/invites', {
+        .post('/organizations/:slug/invite', {
             schema: {
                 tags: ['Invites'],
                 summary: 'Create a new Invite',
