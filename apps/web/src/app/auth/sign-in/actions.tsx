@@ -1,6 +1,8 @@
 'use server'
 import { signWithPassword } from "@/http/sign-in-with-password"
 import { HTTPError } from "ky"
+import { cookies } from "next/headers"
+import { redirect } from "next/navigation"
 import { z } from 'zod'
 
 const signInSchemma = z.object({
@@ -9,6 +11,8 @@ const signInSchemma = z.object({
 })
 
 export async function signInWithEmailAndPassword(data: FormData) {
+
+    const cookieStore = await cookies();
 
     const result = signInSchemma.safeParse(Object.fromEntries(data))
 
@@ -28,6 +32,12 @@ export async function signInWithEmailAndPassword(data: FormData) {
         })
 
         console.log(token)
+
+        cookieStore.set('token', token, {
+            path: '/', // significa que todas as rotas terão acesso aos cookies.
+            maxAge: 60 * 60 * 24 * 7 //7 days
+        })
+
     } catch (error) {
         if (error instanceof HTTPError) {
             console.error(error);
@@ -39,5 +49,6 @@ export async function signInWithEmailAndPassword(data: FormData) {
         return { success: false, message: 'Unexpected error, try again in a few minute', errors: null }
     }
 
-    return { success: true, message: null, errors: null }
+    //return { success: true, message: null, errors: null }
+    redirect('/')
 }
