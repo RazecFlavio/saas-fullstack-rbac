@@ -10,24 +10,35 @@ import { Separator } from "@/components/ui/separator"
 import Image from "next/image"
 import { useActionState } from 'react'
 
-import { Loader2 } from 'lucide-react'
+import { AlertTriangle, Loader2 } from 'lucide-react'
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 
 export function SignInForm() {
 
-    const [state, formAction, isPending] = useActionState(signInWithEmailAndPassword, undefined)
+    const [{ success, message, errors }, formAction, isPending] = useActionState(signInWithEmailAndPassword,
+        { success: false, message: null, errors: null })
 
     return (
         <form action={formAction} className="space-y-4">
-            <h1>{state}</h1>
+            {success === false && message && (
+                <Alert variant={'destructive'}>
+                    <AlertTriangle className='size-4' />
+                    <AlertTitle>Sign in failed</AlertTitle>
+                    <AlertDescription>
+                        <p>{message}</p>
+                    </AlertDescription>
+                </Alert>
+            )}
             <div className="space-y-1">
                 <Label htmlFor="email">E-mail</Label>
                 <Input name="email" type="email" id="email" />
+                {errors?.email && (<p className='text-xs font-medium text-red-500 dark:text-red-400'>{errors.email[0]}</p>)}
             </div>
 
             <div className="space-y-1">
                 <Label htmlFor="password">Password</Label>
                 <Input name="password" type="password" id="password" />
-
+                {errors?.password && (<p className='text-xs font-medium text-red-500 dark:text-red-400'>{errors.password[0]}</p>)}
                 <Link href="/auth/forgot-password"
                     className="text-xs font-medium text-foreground hover:underline">
                     Forgot your password?
