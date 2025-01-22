@@ -12,33 +12,14 @@ import { FormEvent, useActionState, useState, useTransition } from 'react'
 
 import { AlertTriangle, Loader2 } from 'lucide-react'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
+import { useMyFormState } from '@/hooks/use-my-form-state'
 
 export function SignInForm() {
 
     // const [{ success, message, errors }, formAction, isPending] = useActionState(signInWithEmailAndPassword,
     //     { success: false, message: null, errors: null })
 
-    const [isPending, startTransition] = useTransition();
-
-    const [{ success, message, errors }, setFormState] = useState<
-        {
-            success: boolean, message: string | null, errors: Record<string, string[]> | null
-        }
-    >({
-        success: false, message: null, errors: null
-    });
-
-    async function handleSignIn(e: FormEvent<HTMLFormElement>) {
-        e.preventDefault()
-
-        const form = e.currentTarget
-        const data = new FormData(form)
-
-        startTransition(async () => {
-            const state = await signInWithEmailAndPassword(data)
-            setFormState(state)
-        })
-    }
+    const [{ success, message, errors }, handleSignIn, isPending] = useMyFormState(signInWithEmailAndPassword);
 
     return (
         <form /*action={formAction} */
