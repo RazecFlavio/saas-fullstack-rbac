@@ -1,7 +1,6 @@
-import { TokenType } from "@prisma/client";
 import { FastifyInstance } from "fastify";
 import { ZodTypeProvider } from "fastify-type-provider-zod";
-import z, { string } from "zod";
+import { z } from "zod";
 import { BadRequestError } from "../_erros/bad-request-error";
 import { prisma } from "@/lib/prisma";
 import { env } from "@saas/env";
@@ -25,6 +24,8 @@ export async function authenticateWithGithub(app: FastifyInstance) {
         }, async (req, reply) => {
             const { code } = req.body;
 
+            console.log('code backend', code)
+
             const githubOAuthURL = new URL(
                 'https://github.com/login/oauth/access_token'
             )
@@ -42,23 +43,25 @@ export async function authenticateWithGithub(app: FastifyInstance) {
 
             const githubAccessTokenData = await githubAccessTokenResponse.json()
 
-            console.log(githubAccessTokenData)
+            console.log('data', githubAccessTokenData)
+            console.log('client_id', env.GITHUB_OAUTH_CLIENT_ID)
+            console.log('client_secret', env.GITHUB_OAUTH_CLIENT_SECRET)
+            console.log('redirect_uri', env.GITHUB_OAUTH_CLIENT_REDIRECT_URI)
 
             const { access_token: githubAccessToken } = z.object({
                 access_token: z.string(),
                 token_type: z.literal('bearer'),
                 scope: z.string()
             }).parse(githubAccessTokenData)
+            console.log('backend')
 
             const githubUserResponse = await fetch('https://api.github.com/user', {
                 headers: {
                     Authorization: `Bearer ${githubAccessToken}`
                 }
             })
-
+            console.log('backend2')
             const githubUserData = await githubUserResponse.json();
-
-            console.log('userData', githubUserData)
 
             const { id: githubId, name, email, avatar_url: avatarUrl } = z.object({
                 id: z.number().int().transform(String),
@@ -68,6 +71,8 @@ export async function authenticateWithGithub(app: FastifyInstance) {
             }).parse(githubUserData)
 
             if (email === null) throw new BadRequestError('Your github account must have an email to authenticate!');
+
+
 
             let user = await prisma.user.findUnique({
                 where: { email }
@@ -107,6 +112,8 @@ export async function authenticateWithGithub(app: FastifyInstance) {
                     expiresIn: '7d'
                 }
             })
+
+            console.log('token backend', token)
 
             return reply.status(201).send({ token });
         })
