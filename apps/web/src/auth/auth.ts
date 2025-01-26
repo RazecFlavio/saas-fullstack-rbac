@@ -7,6 +7,15 @@ export async function isAuthenticated() {
     return cookieStore.get('token')?.value;
 }
 
+interface GetProfileResponse {
+
+    name: string | null;
+    id: string;
+    avatarUrl: string | null;
+    email: string;
+
+}
+
 export async function auth() {
     const cookieStore = await cookies()
     const token = cookieStore.get('token')?.value
@@ -16,7 +25,7 @@ export async function auth() {
     }
     try {
         const { user } = await getProfile()
-        return { user }
+        return user as GetProfileResponse
     } catch (error) {
     }
 
