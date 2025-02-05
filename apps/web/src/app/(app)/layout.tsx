@@ -1,4 +1,5 @@
 import { isAuthenticated } from "@/auth/auth";
+import { Headers } from "@/components/header";
 import { redirect } from "next/navigation";
 
 export default async function AppLayout({
@@ -9,5 +10,13 @@ export default async function AppLayout({
     if (!await isAuthenticated()) {
         redirect('/auth/sign-in')
     }
-    return <>{children}</>;
+
+    return (
+        <div className="py-4 space-y-4">
+            <Headers />
+            <main className="mx-auto w-full max-w-[1200px]">
+                {children}
+            </main>
+        </div>
+    )
 }
