@@ -11,12 +11,5 @@ export default async function AppLayout({
         redirect('/auth/sign-in')
     }
 
-    return (
-        <div className="py-4 space-y-4">
-            <Headers />
-            <main className="mx-auto w-full max-w-[1200px]">
-                {children}
-            </main>
-        </div>
-    )
+    return (<>{children}</>)
 }

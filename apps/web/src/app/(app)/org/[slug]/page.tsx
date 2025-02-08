@@ -2,9 +2,9 @@ import { Headers } from "@/components/header";
 
 export default async function Projets() {
     return (
-        <div className="py-4 border">
+        <div className="space-y-4 py-4">
             <Headers />
-            <main></main>
+            <main className="mx-auto w-full max-w-[1200px]">Projects</main>
         </div>
     );
 }
