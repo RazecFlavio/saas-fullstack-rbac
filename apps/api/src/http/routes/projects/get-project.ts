@@ -59,6 +59,7 @@ export async function getProject(app: FastifyInstance) {
                     ownerId: true,
                     avatarUrl: true,
                     organizationId: true,
+                    createdAt: true,
                     owner: {
                         select: {
                             id: true,
