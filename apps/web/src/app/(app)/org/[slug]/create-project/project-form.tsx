@@ -9,10 +9,18 @@ import { useMyFormState } from "@/hooks/use-my-form-state";
 import { AlertTriangle, Loader2 } from "lucide-react";
 import { createProjectAction } from "./actions";
 import { Textarea } from "@/components/ui/textarea";
+import { useParams } from "next/navigation";
+import { queryClient } from "@/lib/react-query";
 
 export function ProjectForm() {
+    const { slug: org } = useParams<{ slug: string }>();
+
     const [{ success, message, errors }, handleSubmit, isPending] =
-        useMyFormState(createProjectAction);
+        useMyFormState(createProjectAction, async () => {
+            queryClient.invalidateQueries({
+                queryKey: [org, 'projects']
+            })
+        });
 
     return (
         <form onSubmit={handleSubmit} className="space-y-4">
