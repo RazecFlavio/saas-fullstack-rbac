@@ -1,5 +1,4 @@
 import { isAuthenticated } from "@/auth/auth";
-import { Headers } from "@/components/header";
 import { redirect } from "next/navigation";
 
 export default async function AppLayout({

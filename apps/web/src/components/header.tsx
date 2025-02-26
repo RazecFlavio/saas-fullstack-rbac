@@ -9,11 +9,11 @@ import { Separator } from "./ui/separator";
 import { ThemeSwitcher } from "./theme/theme-switcher";
 import { ProjectSwitcher } from "./project-switcher";
 
-export async function Headers() {
+export async function Header() {
     const permissions = await ability()
 
     return (
-        <div className="mx-auto flex max-w-[1200px] items-center justify-between border-b pb-2">
+        <div className="mx-auto flex max-w-[1200px] items-center justify-between">
             <div className="flex items-center gap-3">
                 <Image src={rocketseat} className="size-6" alt="rocketseat" />
                 <Slash className="size-3 -rotate-45 text-border" />
