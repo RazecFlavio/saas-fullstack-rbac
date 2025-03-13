@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { OrganizationForm } from "../../organization-form"
 import { ShutdownOrganizationButton } from "./shutdown-organization-button"
 import { getOrganization } from "@/http/get-organization"
+import { Billing } from "./billing"
 
 export default async function Settings() {
     const permissions = await ability()
@@ -35,7 +36,7 @@ export default async function Settings() {
                 )}
             </div>
 
-            {canGetBilling && <div>Billing</div>}
+            {canGetBilling && <Billing />}
 
             {canShutdownOrganization && (
                 <Card>
