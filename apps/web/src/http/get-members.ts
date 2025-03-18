@@ -15,6 +15,10 @@ interface GetMembersResponse {
 export async function getMembers(org: string) {
     //await new Promise(resolve => setTimeout(resolve, 2000))
 
-    const result = await api.get(`organizations/${org}/members`).json<GetMembersResponse>()
+    const result = await api.get(`organizations/${org}/members`, {
+        next: {
+            tags: [`${org}-members`]
+        }
+    }).json<GetMembersResponse>()
     return result
 }
