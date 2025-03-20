@@ -10,7 +10,7 @@ import { BadRequestError } from "../_erros/bad-request-error";
 
 export async function revokeInvite(app: FastifyInstance) {
     app.withTypeProvider<ZodTypeProvider>().register(auth)
-        .post('/organizations/:slug/invites/:inviteId', {
+        .delete('/organizations/:slug/invites/:inviteId', {
             schema: {
                 tags: ['Invites'],
                 summary: 'Revoke an Invite',

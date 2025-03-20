@@ -1,8 +1,11 @@
 import { ability, getCurrentOrg } from "@/auth/auth"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table"
 import { getInvites } from "@/http/get-invites"
+import { XOctagon } from "lucide-react"
+import { RevokeInviteButton } from "./revoke-invite-button"
 
 export async function Invites() {
     const currentOrg = await getCurrentOrg()
@@ -32,10 +35,15 @@ export async function Invites() {
                                             <span className="text-muted-foreground">{invite.email}</span>
                                         </div>
                                     </TableCell>
-                                    <TableCell className="py-2.5">
+                                    <TableCell className="py-2.5 font-medium">
+                                        {invite.role}
                                     </TableCell>
                                     <TableCell className="py-2.5">
-
+                                        <div className="flex justify-end">
+                                            {permissions?.can('delete', 'Invite') && (
+                                                <RevokeInviteButton inviteId={invite.id} />
+                                            )}
+                                        </div>
                                     </TableCell>
                                 </TableRow>
                             )

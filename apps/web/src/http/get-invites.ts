@@ -17,6 +17,10 @@ interface GetInvitesResponse {
 export async function getInvites(org: string) {
     //await new Promise(resolve => setTimeout(resolve, 2000))
 
-    const result = await api.get(`organizations/${org}/invites`).json<GetInvitesResponse>()
+    const result = await api.get(`organizations/${org}/invites`, {
+        next: {
+            tags: [`${org}-invites`]
+        }
+    }).json<GetInvitesResponse>()
     return result
 }
