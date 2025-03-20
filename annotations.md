@@ -32,3 +32,7 @@
 
 -pnpm i dotenv-cli -D  //no packager.json da api, no scripts -- serve para identificar que a partir do -- será outro comando á ser executado!
 
+## novo ambiente
+- apos subir o ambiente no docker
+- pnpm prisma generate
+- pnpm prisma migrate dev

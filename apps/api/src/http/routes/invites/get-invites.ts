@@ -6,11 +6,10 @@ import z from "zod";
 import { getUserPermissions } from "@/utils/get-user-permissions";
 import { UnauthorizedError } from "../_erros/unauthorized-error";
 import { roleSchema } from "@saas/auth";
-import { BadRequestError } from "../_erros/bad-request-error";
 
 export async function getInvites(app: FastifyInstance) {
     app.withTypeProvider<ZodTypeProvider>().register(auth)
-        .post('/organizations/:slug/invites', {
+        .get('/organizations/:slug/invites', {
             schema: {
                 tags: ['Invites'],
                 summary: 'Get all organization Invites',
