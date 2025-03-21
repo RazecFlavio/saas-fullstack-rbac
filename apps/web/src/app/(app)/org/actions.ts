@@ -4,8 +4,7 @@ import { createOrganization } from "@/http/create-organization"
 import { updateOrganization } from "@/http/update-organization"
 import { HTTPError } from "ky"
 import { revalidateTag } from "next/cache"
-import { redirect } from "next/navigation"
-import { z, ZodLiteral } from 'zod'
+import { z } from 'zod'
 
 const organizationSchemma = z.object({
     name: z.string().min(4, { message: 'Please include at least 4 characteres.' }),
