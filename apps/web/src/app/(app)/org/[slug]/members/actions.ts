@@ -9,7 +9,6 @@ import { Role, roleSchema } from "@saas/auth";
 import { HTTPError } from "ky";
 import { revalidateTag } from "next/cache";
 import { z } from "zod";
-
 export async function removeMemberAction(memberId: string) {
     const currentOrg = await getCurrentOrg()
 
