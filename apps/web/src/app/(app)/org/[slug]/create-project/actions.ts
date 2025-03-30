@@ -20,7 +20,7 @@ export async function createProjectAction(data: FormData) {
 
     const { name, description } = result.data
 
-    //await new Promise((resolve) => setTimeout(resolve, 2000))
+    //await new Promise((resolve) => doc(resolve, 2000))
 
     try {
         await createProject({

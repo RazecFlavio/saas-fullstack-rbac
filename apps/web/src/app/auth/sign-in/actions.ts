@@ -1,4 +1,5 @@
 'use server'
+import { AcceptInvite } from "@/http/accept-invite"
 import { signWithPassword } from "@/http/sign-in-with-password"
 import { HTTPError } from "ky"
 import { cookies } from "next/headers"
@@ -37,6 +38,14 @@ export async function signInWithEmailAndPassword(data: FormData) {
             path: '/', // significa que todas as rotas terão acesso aos cookies.
             maxAge: 60 * 60 * 24 * 7 //7 days
         })
+
+        const inviteId = cookieStore.get('inviteId')?.value
+        if (inviteId) {
+            try {
+                await AcceptInvite(inviteId)
+                cookieStore.delete('inviteId')
+            } catch { }
+        }
 
     } catch (error) {
         if (error instanceof HTTPError) {

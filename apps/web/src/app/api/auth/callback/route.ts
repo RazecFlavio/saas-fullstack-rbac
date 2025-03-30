@@ -1,3 +1,4 @@
+import { AcceptInvite } from "@/http/accept-invite";
 import { signWithGithub } from "@/http/sign-in-with-github";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
@@ -22,6 +23,14 @@ export async function GET(req: NextRequest) {
         path: '/', // significa que todas as rotas terão acesso aos cookies.
         maxAge: 60 * 60 * 24 * 7 //7 days
     })
+
+    const inviteId = cookieStore.get('inviteId')?.value
+    if (inviteId) {
+        try {
+            await AcceptInvite(inviteId)
+            cookieStore.delete('inviteId')
+        } catch { }
+    }
 
     const redirectURL = req.nextUrl.clone()
     redirectURL.pathname = '/'

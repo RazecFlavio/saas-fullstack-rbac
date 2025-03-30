@@ -14,8 +14,10 @@ import { AlertTriangle, Loader2 } from 'lucide-react'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { useMyFormState } from '@/hooks/use-my-form-state'
 import { signWithGithub } from '../action'
+import { useSearchParams } from 'next/navigation'
 
 export function SignInForm() {
+    const searchParams = useSearchParams()
 
     // const [{ success, message, errors }, formAction, isPending] = useActionState(signInWithEmailAndPassword,
     //     { success: false, message: null, errors: null })
@@ -38,13 +40,13 @@ export function SignInForm() {
                 )}
                 <div className="space-y-1">
                     <Label htmlFor="email">E-mail</Label>
-                    <Input name="email" type="email" id="email" />
+                    <Input name="email" type="email" id="email" defaultValue={searchParams.get('email') ?? ''} />
                     {errors?.email && (<p className='text-xs font-medium text-red-500 dark:text-red-400'>{errors.email[0]}</p>)}
                 </div>
 
                 <div className="space-y-1">
                     <Label htmlFor="password">Password</Label>
-                    <Input name="password" type="password" id="password" />
+                    <Input name="password" type="password" id="password" defaultValue={""} />
                     {errors?.password && (<p className='text-xs font-medium text-red-500 dark:text-red-400'>{errors.password[0]}</p>)}
                     <Link href="/auth/forgot-password"
                         className="text-xs font-medium text-foreground hover:underline">
