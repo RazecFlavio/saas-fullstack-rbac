@@ -50,3 +50,8 @@
   - Foi necessario adicionar o arquivo .eslintrc.json na raiz do projeto web
 
 - npx tsc --noEmit
+
+- Adicionar todas as variaveis de ambiente no turbo.json ou na hora de rodar o comando build
+
+- comando build original: turbo run build
+- comando build para ler variaveis de ambiente: turbo run build --env-mode=loose
