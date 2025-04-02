@@ -42,3 +42,11 @@
 
 - pnpm i tsup -D
 - criar arquivo tsup.config.ts dentro da api
+
+# para deploy frontend
+
+- npx eslint --fix src --ext .ts,.tsx
+
+  - Foi necessario adicionar o arquivo .eslintrc.json na raiz do projeto web
+
+- npx tsc --noEmit

@@ -13,16 +13,10 @@ import { acceptInviteAction, rejectInviteAction } from "./action";
 
 dayjs.extend(relativeTime)
 
-interface InvitePageProps {
-    params: {
-        id: string
-    }
-}
-
 export function PendingInvites() {
     const [isOpen, setIsOpen] = useState(false)
 
-    const { data, isLoading, refetch } = useQuery({
+    const { data } = useQuery({
         queryKey: ['pending-invites'],
         queryFn: GetPendingInvites,
         enabled: isOpen

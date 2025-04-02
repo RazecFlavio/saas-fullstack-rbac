@@ -44,7 +44,7 @@ export async function signInWithEmailAndPassword(data: FormData) {
             try {
                 await AcceptInvite(inviteId)
                 cookieStore.delete('inviteId')
-            } catch { }
+            } catch (error) { console.log(error) }
         }
 
     } catch (error) {

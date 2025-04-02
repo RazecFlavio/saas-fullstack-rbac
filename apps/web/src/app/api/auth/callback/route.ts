@@ -29,7 +29,7 @@ export async function GET(req: NextRequest) {
         try {
             await AcceptInvite(inviteId)
             cookieStore.delete('inviteId')
-        } catch { }
+        } catch (error) { console.log(error) }
     }
 
     const redirectURL = req.nextUrl.clone()

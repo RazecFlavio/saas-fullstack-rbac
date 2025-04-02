@@ -8,7 +8,6 @@ import { getOrganization } from "@/http/get-organization"
 import { organizationSchema } from "@saas/auth"
 import { ArrowLeftRight, Crown, UserMinus } from "lucide-react"
 import Image from "next/image"
-import { permission } from "process"
 import { removeMemberAction } from "./actions"
 import { UpdateMemberRoleSelect } from "./update-member-role-select"
 
