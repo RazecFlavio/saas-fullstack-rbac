@@ -55,3 +55,13 @@
 
 - comando build original: turbo run build
 - comando build para ler variaveis de ambiente: turbo run build --env-mode=loose
+
+// "env":
+// [
+// "DATABASE_URL",
+// "JWT_SECRET",
+// "GITHUB_OAUTH_CLIENT_ID",
+// "GITHUB_OAUTH_CLIENT_SECRET",
+// "GITHUB_OAUTH_CLIENT_REDIRECT_URI",
+// "NEXT_PUBLIC_API_URL"
+// ]
