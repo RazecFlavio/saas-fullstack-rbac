@@ -1,18 +1,59 @@
-## criando backend
+## Revisão Geral
 
+- monorepo - para manter o backend e o frontend no mesmo repositorio
+- utilizando pnpm -> criando novo monorepo com turborepo -> documentation get started
+- RBAC -> Autorização baseado em cargos do usuários
+- Definir as permissões em arquivos e nao no banco de dados. Assim agiliza o processo.
+- Criar um pacote -> auth: Definir o package.json dele.
+
+# CASL->
+
+- user action -> Descreve o que o usuario pode fazer, sempre um verbo.
+- Subject -> Entidades.
+- Fields -> Campos da entidade, permitindo que as permissões sejam mais granulares.
+- Conditions -> Condições para aplicar a permissão.
+- Instalando o CASL
+  - pnpm i @casl/ability
+
+# Criando node(api)
+
+- criar o package.json
+- rodar o pnpm install na pasta da api
+- rodar pnpm tsx @types/node -D
+- criando tsconfig.json pegar no github a versao do node copiar dentro da pasta package e no tsconfig.json criado na api extender dos pacotes.
+- cria script dev no package.json da api.
+- adicionar o pacote de permissões @saas/auth para utilizar o ability
+- criar arquivo permissions dentro do pacote auth
+- criar pasta model para definir os tipos.
+- pnpm i zod para tipar as subjects
+- as subjects precisam ter o atributo \_typename caso deseja condicionar as permissões. Assim na function padrao detectSubjectType será possivel identificar de qual entidade iremos aplicar as permissões.
+- criar pasta routes e criar as rotas.
+
+# Implementando o backend
+
+- Dentro da pasta da api -> apps/api
 - pnpm i fastify fastify-type-provider-zod @fastify/cors zod
-
+- criar pasta http e o arquivo server.ts
+- No fastifyCors vc define qual front-end irá acessar seu backend, por padrao esta todos.
 - pnpm i prisma -D
+
+- criar o docker-compose.yml
 
 - pnpm prisma init
 
 - pnpm prisma migrate dev "criando migrations"
+
+- criar a pasta lib e o arquivo de conexão com o prisma.
+
+- ajustar o alias [/src] = @
 
 - pnpm i bcryptjs
 
 - pnpm i @types/bcryptjs -D
 
 - pnpm i @faker-js/faker -D ### Cria dados fake para ajudar nos testes!
+
+- criar arquivo seed.ts dentro da pasta prisma.
 
 - pnpm prisma db seed ### apos criar script em package.json rodar o comando
 
@@ -25,6 +66,10 @@
 #### criando o midlleware
 
 -pnpm i fastify-plugin --para envolver os middleware
+
+- criar types em @types para adicionar funções no request do fastify, para que o middleware tenha funcionalidades como buscar o id do usuario ou organização ou qualquer outra informação customizada. Adicionar no tsconfig.json os arquivos de @types.
+
+-
 
 -https://github.com/login/oauth/authorize?client_id=Ov23liSnM4eAEx91a5if&redirect_uri=http://localhost:3333/api/auth/callback&scope=user:email
 
