@@ -55,7 +55,7 @@ export async function signInWithEmailAndPassword(data: FormData) {
             return { success: false, message, errors: null }
         }
 
-        return { success: false, message: error, errors: null }
+        return { success: false, message: JSON.stringify(error), errors: null }
     }
 
     //return { success: true, message: null, errors: null }
