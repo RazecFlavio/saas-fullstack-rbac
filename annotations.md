@@ -69,8 +69,6 @@
 
 - criar types em @types para adicionar funções no request do fastify, para que o middleware tenha funcionalidades como buscar o id do usuario ou organização ou qualquer outra informação customizada. Adicionar no tsconfig.json os arquivos de @types.
 
--
-
 -https://github.com/login/oauth/authorize?client_id=Ov23liSnM4eAEx91a5if&redirect_uri=http://localhost:3333/api/auth/callback&scope=user:email
 
 -pnpm i @t3-oss/env-nextjs --- pacote para permitir separar as variaveis de ambiente
